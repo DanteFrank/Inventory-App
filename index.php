@@ -1,3 +1,14 @@
+<?php
+include_once("database/constants.php");
+
+if (isset($_SESSION['userId'])) {
+    header("location: ".DOMAIN."/dashboard.php");
+}
+
+?>
+
+
+
 <!-- Header -->
 <?php require("templates/header.php"); ?>
 
