@@ -139,6 +139,7 @@ $(document).ready(function () {
     Category Section
 
     */
+
    //Fectch Category
    fetch_category();
     function fetch_category() {
@@ -148,10 +149,30 @@ $(document).ready(function () {
             data: {getCategory:1},
             success: function (data) {
                 var root = "<option value='0'>Root</option>";
+                var choose = "<option value=''>Choose Category</option>";
                $("#parent_category").html(root+data);
+               $("#select_category").html(choose+data);
             }
         });
     }
+
+
+
+    //Fetch Brand
+    fetch_brand();
+    function fetch_brand() {
+        $.ajax({
+            method: "POST",
+            url: DOMAIN+"/includes/process.php",
+            data: {getBrand:1},
+            success: function (data) {
+                var choose = "<option value=''>Choose Brand</option>";
+               $("#select_brand").html(choose+data);
+            }
+        });
+    }
+
+
 
     //Add Category
     $("#category_form").on("submit", function(){
@@ -168,6 +189,7 @@ $(document).ready(function () {
                     $("#category_name").removeClass("border-danger");
                     $("#category_error").html("<span class='text-success'>Category Added successfuly!</span>");
                     $("#category_name").val("");
+                    fetch_category();
                    } else {
                        alert(data);
                    }
@@ -191,12 +213,33 @@ $(document).ready(function () {
                         $("#brand_name").removeClass("border-danger");
                         $("#brand_error").html("<span class='text-success'>Brand Name Added Successfully!</span>");
                         $("#brand_name").val("");
+                        fetch_category();
                     } else {
                         alert(data);
                     }
                 }
             });
         }
+    })
+
+
+    //Add Product
+    $("#product_form").on("submit", function() {
+        $.ajax({
+            url : DOMAIN+"/includes/process.php",
+            method : "POST",
+            data : $("#product_form").serialize(),
+            success : function(data) {
+                if (data == "NEW_PRODUCT_ADDED") {
+                    alert("New Product Added Successfully!");
+                    $("#product_name").val("");
+                    $("product_stock").val("");
+                    $("product_price").val("");
+                } else {
+                    alert(data);
+                }
+            }
+        });
     })
 
 

@@ -48,6 +48,21 @@ class DBOperation
 
 
 
+    public function addProduct($category_id, $brand_id, $product_name, $product_price, $product_stock, $added_date) {
+        $stmt = $this->conn->prepare("INSERT INTO `products`(`category_id`, `brand_id`, `product_name`, `product_price`, `product_stock`, `added_date`, `product_status`) VALUES (?,?,?,?,?,?,?)");
+        $product_status = 1;
+        $stmt->bind_param("iisdisi", $category_id, $brand_id, $product_name, $product_price, $product_stock, $added_date, $product_status);
+        $result = $stmt->execute() or die($this->conn->error);
+
+        if ($result) {
+            return "NEW_PRODUCT_ADDED";
+        } else {
+            return 0;
+        }
+    }
+
+
+
 
     public function getAllRecord($table) {
         $stmt = $this->conn->prepare("SELECT * FROM .$table");
