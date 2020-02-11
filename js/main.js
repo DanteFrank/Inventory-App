@@ -68,7 +68,7 @@ $(document).ready(function () {
         } else {
             $.ajax({
                 method: "POST",
-                url: DOMAIN+"/includes/process.php",
+                url: DOMAIN+"/includes/process.inc.php",
                 data: $("#register_form").serialize(),
                 success: function (data) {
                     if (data == "Email_Already_Exists") {
@@ -115,7 +115,7 @@ $(document).ready(function () {
         if (status) {
             $.ajax({
                 method: "POST",
-                url: DOMAIN+"/includes/process.php",
+                url: DOMAIN+"/includes/process.inc.php",
                 data: $("#login_form").serialize(),
                 success: function (data) {
                     if (data == "USER_DOES_NOT_EXISTS") {
@@ -145,7 +145,7 @@ $(document).ready(function () {
     function fetch_category() {
         $.ajax({
             method: "POST",
-            url: DOMAIN+"/includes/process.php",
+            url: DOMAIN+"/includes/process.inc.php",
             data: {getCategory:1},
             success: function (data) {
                 var root = "<option value='0'>Root</option>";
@@ -163,7 +163,7 @@ $(document).ready(function () {
     function fetch_brand() {
         $.ajax({
             method: "POST",
-            url: DOMAIN+"/includes/process.php",
+            url: DOMAIN+"/includes/process.inc.php",
             data: {getBrand:1},
             success: function (data) {
                 var choose = "<option value=''>Choose Brand</option>";
@@ -181,7 +181,7 @@ $(document).ready(function () {
             $("#category_error").html("<span class='text-danger'>Enter Category Name</span>");
         } else {
             $.ajax({
-                url : DOMAIN+"/includes/process.php",
+                url : DOMAIN+"/includes/process.inc.php",
                 method : "POST",
                 data : $("#category_form").serialize(),
                 success : function(data) {
@@ -205,7 +205,7 @@ $(document).ready(function () {
             $("#brand_error").html("<span class='text-danger'>Enter Brand Name</span>");
         } else {
             $.ajax({
-                url : DOMAIN+"/includes/process.php",
+                url : DOMAIN+"/includes/process.inc.php",
                 method : "POST",
                 data : $("#brand_form").serialize(),
                 success : function(data) {
@@ -226,7 +226,7 @@ $(document).ready(function () {
     //Add Product
     $("#product_form").on("submit", function() {
         $.ajax({
-            url : DOMAIN+"/includes/process.php",
+            url : DOMAIN+"/includes/process.inc.php",
             method : "POST",
             data : $("#product_form").serialize(),
             success : function(data) {
@@ -241,6 +241,8 @@ $(document).ready(function () {
             }
         });
     })
+
+
 
 
 });

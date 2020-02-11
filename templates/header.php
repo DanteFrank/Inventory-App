@@ -17,6 +17,7 @@
     <script src="https://kit.fontawesome.com/19b48f0eb3.js" crossorigin="anonymous"></script>
     
     <script src="js/main.js" type="text/javascript"></script>
+    <script src="js/manage.js" type="text/javascript"></script>
     
     <title>DANTE'S INVENTORY</title>
 </head>
