@@ -15,7 +15,7 @@ class Manage
     public function manageRecordWithPagination($table, $page_num) {
         $a = $this->pagination($this->conn, $table, $page_num, 5);
         if ($table == "categories") {
-            $sql = "SELECT p.category_name AS Category, c.category_name AS Parent, p.status FROM categories p LEFT JOIN categories c ON p.parent_category=c.category_id ".$a["limit"];
+            $sql = "SELECT p.category_name AS Category, c.category_name AS Parent, p.status, p.category_id FROM categories p LEFT JOIN categories c ON p.parent_category=c.category_id ".$a["limit"];
         }
         $result = $this->conn->query($sql) or die($this->conn->error);
 
@@ -73,10 +73,45 @@ class Manage
         return ["pagination"=>$pagination, "limit"=>$limit];
     }
 
+    /*
+
+    Delete Records
+
+    */
+    public function deleteRecord($table, $pk, $id) {
+        if ($table == "categories") {
+            $stmt = $this->conn->prepare("SELECT ".$id." FROM categories WHERE parent_category = ? ");
+            $stmt->bind_param("i", $id);
+            $stmt->execute();
+            $result = $stmt->get_result() or die($this-$conn->error);
+
+            if ($result->num_rows > 0) {
+                return "DEPENDENT_CATEGORY";
+            } else {
+               $stmt = $this->conn->prepare("DELETE FROM ".$table." WHERE ".$pk." = ?");
+               $stmt->bind_param("i",$id);
+               $result = $stmt->execute() or die($this->conn->error);
+
+               if ($result) {
+                   return "CATEGORY_DELETED";
+               }
+            }
+        } else {
+            $this->conn->prepare("DELETE FROM ".$table." WHERE ".$pk." = ?");
+            $stmt->bind_param("i",$id);
+            $result = $stmt->execute() or die($this->conn->error);
+
+            if ($result) {
+                return "DELETED";
+            }
+        }
+    }
+
 
 
 }
 
 //$obj = new Manage();
+//echo $obj->deleteRecord("categories","category_id", 16);
 //echo "<pre>";
 //print_r($obj->manageRecordWithPagination("categories",1));
