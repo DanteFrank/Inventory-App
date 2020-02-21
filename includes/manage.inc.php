@@ -107,6 +107,18 @@ class Manage
         }
     }
 
+    //Rrtireve Record For Editing
+    public function getSingleRecord($table, $pk, $id) {
+        $stmt = $this->conn->prepare("SELECT * FROM ".$table." WHERE ".$pk." =? LIMIT 1");
+        $stmt->bind_param("i",$id);
+        $stmt->execute() or die($this->conn->error);
+        $result = $stmt->get_result();
+        if ($result->num_rows == 1) {
+            $row = $result->fetch_assoc();
+        }
+        return $row;
+    }
+
 
 
 }
@@ -115,3 +127,4 @@ class Manage
 //echo $obj->deleteRecord("categories","category_id", 16);
 //echo "<pre>";
 //print_r($obj->manageRecordWithPagination("categories",1));
+//print_r($obj->getSingleRecord("categories", "category_id", 2));

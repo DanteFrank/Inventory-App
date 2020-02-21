@@ -14,6 +14,7 @@ class DBOperation
         $this->conn = $db->connect();
     }
 
+    //Add New Categories
     public function addCategory($parent_category, $category_name) {
 
         //Sql stmt
@@ -30,7 +31,7 @@ class DBOperation
     }
 
 
-
+    //Add New Brands
     public function addBrand($brand_name) {
 
         //Sql stmt
@@ -47,7 +48,7 @@ class DBOperation
     }
 
 
-
+    //Add New Products
     public function addProduct($category_id, $brand_id, $product_name, $product_price, $product_stock, $added_date) {
         $stmt = $this->conn->prepare("INSERT INTO `products`(`category_id`, `brand_id`, `product_name`, `product_price`, `product_stock`, `added_date`, `product_status`) VALUES (?,?,?,?,?,?,?)");
         $product_status = 1;
@@ -63,7 +64,7 @@ class DBOperation
 
 
 
-
+    //Retrieve all Records
     public function getAllRecord($table) {
         $stmt = $this->conn->prepare("SELECT * FROM .$table");
         $stmt->execute() or die($this->conn->error);

@@ -41,6 +41,9 @@ if (!isset($_SESSION['userId'])) {
 </div>
 
 
+<?php   include_once("templates/update_category.php"); ?>
+
+
 
 
 

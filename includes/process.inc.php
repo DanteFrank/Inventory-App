@@ -93,7 +93,7 @@ if (isset($_POST["manageCategory"])) {
                 <td><a href="#" class="btn btn-success btn-sm">Active</a></td>
                 <td>
                     <a href="#" did="<?php echo $row['category_id']; ?>" class="btn btn-danger btn-sm delete_cat"><i class="fas fa-trash">&nbsp;</i>Delete</a>
-                    <a href="#" eid="<?php echo $row['category_id']; ?>" class="btn btn-info btn-sm edit_cat">Edit</a>
+                    <a href="#" data-toggle="modal" data-target="#category" eid="<?php echo $row['category_id']; ?>" class="btn btn-info btn-sm edit_cat">Edit</a>
                 </td>
             </tr>
         <?php
@@ -111,4 +111,12 @@ if (isset($_POST["deleteCategory"])) {
     $mg = new Manage();
     $result= $mg->deleteRecord("categories", "category_id" ,$_POST["id"]);
     echo $result;
+}
+
+//Update Records
+if (isset($_POST["updateCategory"])) {
+    $mg = new Manage();
+    $result = $mg->getSingleRecord("categories", "category_id", $_POST["id"]);
+    echo json_encode($result);
+    exit();
 }
