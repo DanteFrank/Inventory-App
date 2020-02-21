@@ -10,12 +10,14 @@
       </div>
       <div class="modal-body">
         <form id="updateCategoryForm" onsubmit="return false">
+
           <div class="form-group">
             <label>Catergory Name</label>
             <input type="hidden" name="category_id" id="category_id" value="">
             <input type="text" class="form-control" name="update_category_name" id="update_category_name">
             <small id="category_error" class="form-text text-muted"></small>
           </div>
+          
           <div class="form-group">
             <label>Parent Category</label>
             <select name="parent_category" id="parent_category" class="form-control">

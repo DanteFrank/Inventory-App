@@ -4,7 +4,7 @@ class Manage
 {
     private $conn;
 
-    function __construct() {
+    public function __construct() {
         include_once("../database/db.php");
         $db = new Database();
         $this->conn = $db->connect();
@@ -121,6 +121,29 @@ class Manage
 
 
 
+    //Update Record
+    public function updateRecord($table,$where,$fields){
+        $sql = "";
+        $condition = "";
+        foreach ($where as $key => $value) {
+            // id = '5' AND m_name = 'something'
+            $condition .= $key . "='" . $value . "' AND ";
+        }
+        $condition = substr($condition, 0, -5);
+        foreach ($fields as $key => $value) {
+            //UPDATE table SET m_name = '' , qty = '' WHERE id = '';
+            $sql .= $key . "='".$value."', ";
+        }
+        $sql = substr($sql, 0,-2);
+        $sql = "UPDATE ".$table." SET ".$sql." WHERE ".$condition;
+        if(mysqli_query($this->conn,$sql)){
+            return "UPDATED";
+        }
+    }
+    
+    
+
+
 }
 
 //$obj = new Manage();
@@ -128,3 +151,4 @@ class Manage
 //echo "<pre>";
 //print_r($obj->manageRecordWithPagination("categories",1));
 //print_r($obj->getSingleRecord("categories", "category_id", 2));
+//echo $obj->updateRecord("categories", ["category_id"=>2], ["parent_category" =>0, "category_name"=>"Electronics", "status"=>1]);

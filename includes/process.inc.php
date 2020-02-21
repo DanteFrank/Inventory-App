@@ -113,10 +113,21 @@ if (isset($_POST["deleteCategory"])) {
     echo $result;
 }
 
-//Update Records
+//Get Records For Update
 if (isset($_POST["updateCategory"])) {
     $mg = new Manage();
     $result = $mg->getSingleRecord("categories", "category_id", $_POST["id"]);
     echo json_encode($result);
     exit();
+}
+
+
+// Update Records
+if (isset($_POST["update_category_name"])) {
+    $mg = new Manage();
+    $id = $_POST["category_id"];
+    $name = $_POST["update_category_name"];
+    $parent = $_POST["parent_category"];
+    $result = $mg->updateRecord("categories", ["category_id"=>$id], ["parent_category" =>$parent, "category_name"=>$name, "status"=>1]);
+    echo $result;
 }

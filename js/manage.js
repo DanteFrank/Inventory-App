@@ -69,7 +69,7 @@ $(document).ready(function () {
 
     })
 
-    $("updateCategoryForm").on("submit", function() {
+    $("#updateCategoryForm").on("submit", function() {
         if ($("#update_category_name").val() == "") {
             $("#update_category_name").addClass("border-danger");
             $("#category_error").html("<span class='text-danger'>Enter Category Name</span>");
@@ -77,7 +77,7 @@ $(document).ready(function () {
             $.ajax({
                 url : DOMAIN+"/includes/process.inc.php",
                 method : "POST",
-                data : $("updateCategoryForm").serialize(),
+                data : $("#updateCategoryForm").serialize(),
                 success : function(data) {
                    if (data == "CATEGORY_ADDED") {
                     $("#update_category_name").removeClass("border-danger");
@@ -85,7 +85,7 @@ $(document).ready(function () {
                     $("#update_category_name").val("");
                     fetch_category();
                    } else {
-                       alert(data);
+                       window.location.href= "";
                    }
                 }
             });
