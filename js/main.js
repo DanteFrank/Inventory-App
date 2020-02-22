@@ -233,8 +233,8 @@ $(document).ready(function () {
                 if (data == "NEW_PRODUCT_ADDED") {
                     alert("New Product Added Successfully!");
                     $("#product_name").val("");
-                    $("product_stock").val("");
-                    $("product_price").val("");
+                    $("#product_stock").val("");
+                    $("#product_price").val("");
                 } else {
                     alert(data);
                 }

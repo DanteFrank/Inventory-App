@@ -193,3 +193,74 @@ if (isset($_POST["update_brand_name"])) {
     $result = $mg->updateRecord("brands", ["brand_id"=>$id], ["brand_name"=>$name, "status"=>1]);
     echo $result;
 }
+
+
+
+// -------------------- Product management ------------------------
+
+//Manage Product
+if (isset($_POST["manageProduct"])) {
+    $mg = new Manage();
+    $result = $mg->manageRecordWithPagination("products", $_POST["pageNum"]);
+    $rows = $result["rows"];
+    $pagination = $result["pagination"];
+
+    if (count($rows) > 0) {
+        $n = (($_POST["pageNum"] - 1) * 5)+1;
+        foreach ($rows as $row) {
+            ?>
+            <tr>
+                <td><?php echo $n; ?></td>
+                <td><?php echo $row["product_name"]; ?></td>
+                <td><?php echo $row["category_name"]; ?></td>
+                <td><?php echo $row["brand_name"]; ?></td>
+                <td><?php echo $row["product_price"]; ?></td>
+                <td><?php echo $row["product_stock"]; ?></td>
+                <td><?php echo $row["added_date"]; ?></td>
+                <td><a href="#" class="btn btn-success btn-sm">Active</a></td>
+                <td>
+                    <a href="#" did="<?php echo $row['product_id']; ?>" class="btn btn-danger btn-sm delete_product"><i class="fas fa-trash">&nbsp;</i>Delete</a>
+                    <a href="#" data-toggle="modal" data-target="#products" eid="<?php echo $row['product_id']; ?>" class="btn btn-info btn-sm edit_product">Edit</a>
+                </td>
+            </tr>
+        <?php
+        $n++;
+        }
+        ?>
+            <tr><td colspan="5"><?php echo $pagination; ?></td></tr>
+        <?php
+        exit();
+    }
+}
+
+
+//Delete Product
+if (isset($_POST["deleteProduct"])) {
+    $mg = new Manage();
+    $result= $mg->deleteRecord("products", "product_id" ,$_POST["id"]);
+    echo $result;
+}
+
+//Get Records For Product Update
+if (isset($_POST["updateProduct"])) {
+    $mg = new Manage();
+    $result = $mg->getSingleRecord("products", "product_id", $_POST["id"]);
+    echo json_encode($result);
+    exit();
+}
+
+
+
+// Update Products
+if (isset($_POST["update_product_name"])) {
+    $mg = new Manage();
+    $id = $_POST["product_id"];
+    $name = $_POST["update_product_name"];
+    $category = $_POST["select_category"];
+    $brand = $_POST["select_brand"];
+    $price = $_POST["product_price"];
+    $stock = $_POST["product_stock"];
+    $date = $_POST["added_date"];
+    $result = $mg->updateRecord("products", ["product_id"=>$id],  ["product_name"=>$name, "category_id"=>$category, "brand_id"=>$brand, "product_price"=>$price, "product_stock"=>$stock, "added_date"=>$date]);
+    echo $result;
+}

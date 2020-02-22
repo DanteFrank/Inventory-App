@@ -179,6 +179,86 @@ $(document).ready(function () {
 
 
 
+    //--------------------- Products Management ----------------------------------
+
+
+    //Manage Product
+    manageProduct(1);
+    function manageProduct(pn) {
+        $.ajax({
+            url : DOMAIN+"/includes/process.inc.php",
+            method : "POST",
+            data : {manageProduct:1, pageNum:pn},
+            success : function(data) {
+                $("#get_product").html(data);
+            }
+        });
+    }
+
+     //Pagination
+     $("body").delegate(".page-link", "click", function() {
+        var pn = $(this).attr("pn");
+        manageProduct(pn);
+    })
+
+
+     //Delete Product
+     $("body").delegate(".delete_product", "click", function() {
+        var did = $(this).attr("did");
+        if (confirm("Are you sure you want to delete?")) {
+            $.ajax({
+                url : DOMAIN+"/includes/process.inc.php",
+                method : "POST",
+                data : {deleteProduct:1, id:did},
+                success : function(data) {
+                    if (data == "DELETED") {
+                        alert("Product Deleted!");
+                    } else {
+                        alert(data);
+                    }
+                }
+            });
+        }
+    })
+
+
+    //Edit & Update Product
+    $("body").delegate(".edit_product", "click", function() {
+        var eid = $(this).attr("eid");
+            $.ajax({
+                url : DOMAIN+"/includes/process.inc.php",
+                method : "POST",
+                data : {updateProduct:1, id:eid},
+                dataType: "json",
+                success : function(data) {
+                    console.log(data);
+                    $("#product_id").val(data["product_id"]);
+                    $("#update_product_name").val(data["product_name"]);
+                    $("#select_category").val(data["category_id"]);
+                    $("#select_brand").val(data["brand_id"]);
+                    $("#product_price").val(data["product_price"]);
+                    $("#product_stock").val(data["product_stock"]);
+                }
+            });
+
+    })
+
+
+    $("#updateProductForm").on("submit", function() {
+            $.ajax({
+                url : DOMAIN+"/includes/process.inc.php",
+                method : "POST",
+                data : $("#updateProductForm").serialize(),
+                success : function(data) {
+                    if (data == "UPDATED") {
+                        alert("Product Updated Successfully!");
+                        window.location.href= "";
+                    } else {
+                        alert(data);
+                    }
+                }
+            });
+    })
 
 
 

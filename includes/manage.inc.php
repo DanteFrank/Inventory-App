@@ -16,7 +16,12 @@ class Manage
         $a = $this->pagination($this->conn, $table, $page_num, 5);
         if ($table == "categories") {
             $sql = "SELECT p.category_name AS Category, c.category_name AS Parent, p.status, p.category_id FROM categories p LEFT JOIN categories c ON p.parent_category=c.category_id ".$a["limit"];
-        } else {
+        } elseif ($table == "products") {
+            $sql = "SELECT products.product_id, products.product_name, categories.category_name, brands.brand_name, products.product_price, products.product_stock, products.added_date, products.product_status
+            FROM products, categories, brands
+            WHERE products.brand_id = brands.brand_id AND products.category_id = categories.category_id ".$a["limit"];
+        }
+         else {
             $sql = "SELECT * FROM ".$table." ".$a["limit"];
         }
         $result = $this->conn->query($sql) or die($this->conn->error);
