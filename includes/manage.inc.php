@@ -16,6 +16,8 @@ class Manage
         $a = $this->pagination($this->conn, $table, $page_num, 5);
         if ($table == "categories") {
             $sql = "SELECT p.category_name AS Category, c.category_name AS Parent, p.status, p.category_id FROM categories p LEFT JOIN categories c ON p.parent_category=c.category_id ".$a["limit"];
+        } else {
+            $sql = "SELECT * FROM ".$table." ".$a["limit"];
         }
         $result = $this->conn->query($sql) or die($this->conn->error);
 
@@ -97,7 +99,7 @@ class Manage
                }
             }
         } else {
-            $this->conn->prepare("DELETE FROM ".$table." WHERE ".$pk." = ?");
+            $stmt = $this->conn->prepare("DELETE FROM ".$table." WHERE ".$pk." = ?");
             $stmt->bind_param("i",$id);
             $result = $stmt->execute() or die($this->conn->error);
 

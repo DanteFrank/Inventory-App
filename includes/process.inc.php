@@ -131,3 +131,65 @@ if (isset($_POST["update_category_name"])) {
     $result = $mg->updateRecord("categories", ["category_id"=>$id], ["parent_category" =>$parent, "category_name"=>$name, "status"=>1]);
     echo $result;
 }
+
+
+// ------------- BRand Management --------------------------
+
+
+//Manage Brand
+if (isset($_POST["manageBrand"])) {
+    $mg = new Manage();
+    $result = $mg->manageRecordWithPagination("brands", $_POST["pageNum"]);
+    $rows = $result["rows"];
+    $pagination = $result["pagination"];
+
+    if (count($rows) > 0) {
+        $n = (($_POST["pageNum"] - 1) * 5)+1;
+        foreach ($rows as $row) {
+            ?>
+            <tr>
+                <td><?php echo $n; ?></td>
+                <td><?php echo $row["brand_name"]; ?></td>
+                <td><a href="#" class="btn btn-success btn-sm">Active</a></td>
+                <td>
+                    <a href="#" did="<?php echo $row['brand_id']; ?>" class="btn btn-danger btn-sm delete_brand"><i class="fas fa-trash">&nbsp;</i>Delete</a>
+                    <a href="#" data-toggle="modal" data-target="#brand" eid="<?php echo $row['brand_id']; ?>" class="btn btn-info btn-sm edit_brand">Edit</a>
+                </td>
+            </tr>
+        <?php
+        $n++;
+        }
+        ?>
+            <tr><td colspan="5"><?php echo $pagination; ?></td></tr>
+        <?php
+        exit();
+    }
+}
+
+//Delete Brands
+if (isset($_POST["deleteBrand"])) {
+    $mg = new Manage();
+    $result= $mg->deleteRecord("brands", "brand_id" ,$_POST["id"]);
+    echo $result;
+}
+
+
+
+//Get Records For Brand Update
+if (isset($_POST["updateBrand"])) {
+    $mg = new Manage();
+    $result = $mg->getSingleRecord("brands", "brand_id", $_POST["id"]);
+    echo json_encode($result);
+    exit();
+}
+
+
+
+// Update Brands
+if (isset($_POST["update_brand_name"])) {
+    $mg = new Manage();
+    $id = $_POST["brand_id"];
+    $name = $_POST["update_brand_name"];
+    $result = $mg->updateRecord("brands", ["brand_id"=>$id], ["brand_name"=>$name, "status"=>1]);
+    echo $result;
+}
